@@ -12,25 +12,43 @@ yarn dev
 pnpm dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Notas:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- "use client": Solo declarar componentes como funciones asignadas a variables, no como `export default function xxx(){}`.
+- "use client" es un comentario que indica que el código que sigue es código que se ejecuta en el cliente, no en el servidor.
+- Los componentes anidados no necesitan el comentario "use client" porque ya están dentro de un componente principal.
+- Siempre las page.tsx tienen que ser exportaciones por defecto. (comando "rafce")
 
-[http://localhost:3000/api/hello](http://localhost:3000/api/hello) is an endpoint that uses [Route Handlers](https://beta.nextjs.org/docs/routing/route-handlers). This endpoint can be edited in `app/api/hello/route.ts`.
+```tsx
+"use client";
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+import { useState } from "react";
+import ButtonCounter from "./ButtonCounter";
 
-## Learn More
+const Counter = function () {
+  const [count, setCount] = useState(0);
 
-To learn more about Next.js, take a look at the following resources:
+  return (
+    <div>
+      <p>You clicked {count} times</p>
+      <ButtonCounter
+        setCount={setCount}
+        count={count}
+      />
+    </div>
+  );
+};
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+export default Counter;
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## meta data
 
-## Deploy on Vercel
+Con esto en las page.tsx puedes añadir metadatos a las páginas.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+```tsx
+export const metadata = {
+  title: "Dashboard",
+  description: "Dashboard page",
+};
+```
