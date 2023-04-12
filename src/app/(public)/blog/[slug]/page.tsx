@@ -1,14 +1,23 @@
+import axios from "axios";
+
 interface Props {
   params: {
     slug: string;
   };
 }
 
+// const getPost = async (slug: string) => {
+//   const response = await fetch(
+//     "https://jsonplaceholder.typicode.com/posts/" + slug
+//   );
+//   return await response.json();
+// };
+
 const getPost = async (slug: string) => {
-  const response = await fetch(
+  const { data } = await axios.get(
     "https://jsonplaceholder.typicode.com/posts/" + slug
   );
-  return await response.json();
+  return data;
 };
 
 const Post = async ({ params }: Props) => {
