@@ -149,3 +149,10 @@ const Navbar = () => {
 };
 export default Navbar;
 ```
+
+## Grupo de rutas
+
+solo tienes que colocar la carpta principal entre parentesis y dentro de ella colocar los archivos page.tsx
+
+- src\app\(public)\about\page.tsx
+- src\app\(public)\contact\page.tsx
