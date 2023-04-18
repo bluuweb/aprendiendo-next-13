@@ -156,3 +156,67 @@ solo tienes que colocar la carpta principal entre parentesis y dentro de ella co
 
 - src\app\(public)\about\page.tsx
 - src\app\(public)\contact\page.tsx
+- src\app\(private)\dashboard\page.tsx
+
+Los grupos de rutas se pueden utilizar para:
+
+- Organiza rutas sin afectar la estructura de la URL.
+- Optar por segmentos de ruta específicos en un diseño.
+- Cree múltiples diseños raíz dividiendo su aplicación.
+
+## Params
+
+Para rutas dinámicas utilizaremos corchetes para definir los parámetros de la ruta. Un blog simple podría incluir la siguiente ruta `app/blog/[slug]/page.js` donde `[slug]` se encuentra el segmento dinámico para publicaciones de blog.
+
+src\app\(public)\blog\[slug]\page.tsx
+
+```jsx
+interface Props {
+  params: {
+    slug: string,
+  };
+}
+
+const getPost = async (slug: string) => {
+  const response = await fetch(
+    "https://jsonplaceholder.typicode.com/posts/" + slug
+  );
+  return await response.json();
+};
+
+const Post = async ({ params }: Props) => {
+  const post = await getPost(params.slug);
+
+  console.log(post);
+  return (
+    <div>
+      <h2 className="text-lg underline">
+        {post.id} - {post.title}
+      </h2>
+      <p>{post.body}</p>
+    </div>
+  );
+};
+export default Post;
+```
+
+## Subparams (catch-all)
+
+Para ir concatenando params o subparams se pueden utilizar los puntos suspensivos `...`.
+
+| Ruta                       | URL de ejemplo | params                    |
+| -------------------------- | -------------- | ------------------------- |
+| app/shop/[...slug]/page.js | /shop/a        | { slug: ['a'] }           |
+| app/shop/[...slug]/page.js | /shop/a/b      | { slug: ['a', 'b'] }      |
+| app/shop/[...slug]/page.js | /shop/a/b/c    | { slug: ['a', 'b', 'c'] } |
+
+## Subparams opcionales (catch-all opcional)
+
+La diferencia entre los segmentos catch-all y catch-all opcional es que con opcional, la ruta sin el parámetro también coincide ( `/shopen` el ejemplo anterior).
+
+| Ruta                         | URL de ejemplo | params                    |
+| ---------------------------- | -------------- | ------------------------- |
+| app/shop/[[...slug]]/page.js | /shop          | {}                        |
+| app/shop/[[...slug]]/page.js | /shop/a        | { slug: ['a'] }           |
+| app/shop/[[...slug]]/page.js | /shop/a/b      | { slug: ['a', 'b'] }      |
+| app/shop/[[...slug]]/page.js | /shop/a/b/c    | { slug: ['a', 'b', 'c'] } |
